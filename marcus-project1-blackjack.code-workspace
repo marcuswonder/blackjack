@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"name": "marcus-project1-blackjack",
+			"path": "."
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "marcus-project1-blackjack"
+	}
+}

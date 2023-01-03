@@ -1,0 +1,322 @@
+
+
+/* IDs -- IDs -- IDs -- IDs -- IDs -- IDs -- IDs -- IDs -- IDs -- IDs -- IDs -- IDs -- IDs -- IDs -- IDs */
+body{
+    background: green;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    border-radius: 2%;
+    border-color: gold;
+    display: grid;
+    justify-content: flex;
+    grid-auto-rows: minmax(auto, auto);
+    grid-template-columns: 5fr 5fr 5fr 5fr 5fr 5fr 5fr 5fr 5fr 5fr 5fr 5fr 5fr 10fr;
+    grid-template-areas:
+        "hdr hdr hdr hdr hdr hdr hdr hdr hdr hdr hdr hdr hdr hdr"
+        "s-hdr s-hdr s-hdr s-hdr s-hdr s-hdr s-hdr s-hdr s-hdr s-hdr s-hdr s-hdr s-hdr s-hdr"
+        "strt strt d-name d-name d-name d-name d-name d-name d-name d-name d-name d-name d-name deck"
+        "score score d-cards d-cards d-cards d-cards d-cards d-cards d-cards d-cards d-cards d-cards d-cards deck"
+        "score score msg msg msg msg msg msg msg msg msg msg msg deck"
+        "score score msg msg msg msg msg msg msg msg msg msg msg deck"
+        "rule rule msg msg msg msg msg msg msg msg msg msg msg deck"
+        "rule rule msg msg msg msg msg msg msg msg msg msg msg buttons"
+        "stack bet msg2 msg2 msg2 msg2 msg2 msg2 msg2 msg2 msg2 msg2 msg2 buttons"
+        "stack bet p-cards p-cards p-cards p-cards p-cards p-cards p-cards p-cards p-cards p-cards p-cards buttons"
+        "stack bet p-name p-name p-name p-name p-name p-name p-name p-name p-name p-name p-name buttons"
+        ;
+        
+}
+
+
+/* main header on page */
+.header{
+    grid-area: hdr;
+    background-color: black;
+    font-size: 2.5rem;
+    color: gold;
+    text-align: center;
+    padding: 2% 0 0 0;
+    font-weight: bold;
+}
+
+/* sub-header on page */
+.sub-header{
+    grid-area: s-hdr;
+    background-color: black;
+    font-size: 1.15rem;
+    color: gold;
+    text-align: center;
+    padding: 1% 0 1% 0;
+    border-bottom-width: 100px;
+    border-color: gold;
+    font-weight: bold;
+}
+
+/* start button */
+.start-button{
+    grid-area: strt;
+    width: 100%;
+    border: gray;
+    border-width: 2px;
+    border-style: solid;
+    column-span: all;
+    margin: 2% 0% 2% 0%;
+    height: 2.5rem;
+    margin: 2% 5% 2% 5%;
+    justify-content: auto;
+}
+
+/* scores table */
+.scores{
+    grid-area: score;
+    width: 100%;
+    background: gold;
+    color: black;
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 5px;
+    margin: 5px 5px 5px 5px;
+    padding: 5% 2% 5% 2%;
+    border: black;
+    border-width: 2px;
+    border-style: solid;
+    display: grid;
+    /* display:table-column */
+    grid-template-areas: 
+        "scrtitle scrtitle"
+        "scrdlrname scrdlrscore"
+        "scrplrname scrplrscore"
+}
+
+.score-dealer-name{
+    grid-area: scrdlrname;
+    display: flex;
+    font-size: 1.25rem;
+    font-weight:lighter;
+    margin: 10px 5px 5px 5px;
+    padding: 5px;
+    justify-content: start;
+    
+}
+
+.score-dealer-score{
+    grid-area: scrdlrscore;
+    display: flex;
+    font-size: 1.25rem;
+    font-weight:lighter;
+    border: black;
+    width: 35px;
+    height: 35px;
+    border-width: 2px;
+    border-style: solid;
+    margin: 5px;
+    justify-self: start;
+    justify-content: center;
+    align-items: center;
+}
+
+.score-player-name{
+    grid-area: scrplrname;
+    display: flex;
+    font-size: 1.25rem;
+    font-weight:lighter;
+    margin: 5px 5px 5px 5px;
+    padding: 5px;
+    justify-self: start;
+    align-items: center;
+}
+
+.score-player-score{
+    grid-area: scrplrscore;
+    display: flex;
+    font-size: 1.25rem;
+    font-weight:lighter;
+    border: black;
+    width: 35px;
+    height: 35px;
+    border-width: 2px;
+    border-style: solid;
+    margin: 5px;
+    justify-self: start;
+    justify-content: center;
+    align-items: center;
+}
+
+/* rules table */
+.rules{
+    grid-area: rule;
+    width: 100%;
+    font-size: 1.5rem;
+    font-weight: bold;
+    background: gold;
+    padding: 5px;
+    margin: 5px 15px 5px 5px;
+    color: black;
+    border: black;
+    border-width: 2px;
+    padding: 5% 2% 5% 2%;
+    border-style: solid;
+}
+
+/* player stack area including titles & amount in pot */
+.player-stack{
+    grid-area: stack;
+}
+
+/* betting area including amount bet, betting multiples & amount won */
+.betting{
+    grid-area: bet;
+}
+
+/* dealer's name */
+.dealer-name{
+    grid-area: d-name;
+    justify-self: center;
+    color: gold;
+    padding: 1% 0 1% 0;
+    font-size: 1.5rem;
+    font-stretch:wider;
+}
+
+/* dealer's dealt cards - placeholder for flexgrid*/
+.dealer-cards{
+    grid-area: d-cards;
+    display: flex;
+    width: 70%;
+    flex-wrap: nowrap;
+    justify-self: center;
+    margin: 100px;
+    align-items: center;
+}
+
+/* message board */
+.message{
+    grid-area: msg;
+    height: 4rem;
+    color: gold;
+    font-size: 3rem;
+    justify-self: center;
+    margin: 2rem 0 .5rem 0;
+}
+
+.message-2{
+    grid-area: msg2;
+    height: 1rem;
+    color: gold;
+    font-size: 1.5rem;
+    justify-self: center;
+    margin: 0 0 1.5rem 0;
+}
+
+/* player's dealt cards - placeholder for flexgrid*/
+.player-cards{
+    grid-area: p-cards;
+    display: flex;
+    width: 70%;
+    flex-wrap: nowrap;
+    justify-self: center;
+    margin: 100px;
+    align-items: center;
+    }
+
+    /* player's name */ 
+.player-name{
+    grid-area: p-name;
+    justify-self: center;
+    color: gold;
+    padding: 1% 0 1% 0;
+    font-size: 1.5rem;
+    font-stretch: wider;
+}
+
+/* the deck of cards from which cards are drawn */
+.card-deck{
+    grid-area: deck;
+    transform: rotate(45deg);
+    padding: 50px 0px 0px 50px;
+    justify-content:end;
+}
+
+/* all playing buttons: split, double-down, hit & hold */
+.play-buttons{
+    color: gold;
+    font-size: 1.5rem
+}
+.rules-ul{
+    font-size: .75rem;
+    font-weight: normal;
+}
+
+
+
+
+/* Classes -- Classes -- Classes -- Classes -- Classes  -- Classes -- Classes -- Classes -- Classes */
+
+/* start/restart button, double-down, split, hit & hold buttons */
+.play-buttons{
+    grid-area: buttons;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+}
+
+
+/* all in-play dealer cards */
+.dealer-cards{
+    background-color: white;
+    fill: white;
+    height: 10rem;
+    border-style: solid;
+    border-color: gold;
+    border-width: 5px;
+    margin: 0px 5px 0px 15px;
+    padding: 0% 2% 0% 2%;
+}
+
+/* all in-play player cards */
+.player-cards{
+    background-color: white;
+    fill: white;
+    height: 10rem;
+    border-style: solid;
+    border-color: gold;
+    border-width: 5px;
+    margin: 0px 5px 0px 15px;
+    padding: 0% 2% 0% 2%;
+}
+
+/* all in-play dealer & player cards */
+.cards{
+}
+
+/* double-down, split, hit & hold buttons */
+.play-buttons{
+    margin: 2% 5% 2% 5%;
+    justify-content: auto;
+}
+
+/* the split button */
+.split-button{
+}
+
+/* the double-down button */
+.double-down-button{
+}
+
+/* the hit button */
+.hit-button{
+    background-color: #5abd7c;
+    column-span: all;
+    margin: 2% 0% 2% 0%;
+    height: 2.5rem;
+}
+
+/* the hold button */
+.hold-button{
+    background-color: #fddb3b;
+    column-span: all;
+    margin: 2% 0% 2% 0%;
+    height: 2.5rem;
+    
+}

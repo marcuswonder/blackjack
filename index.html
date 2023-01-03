@@ -1,0 +1,60 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Marky's Blackjack Casino</title>
+  <meta name="description" content="A simple and free Blackjack game with no betting">
+  <meta name="author" content="Marcus Smith @marcuswonder">
+
+  <meta property="og:title" content="Marky's Blackjack Casino">
+  <meta property="og:type" content="website">
+  <!-- <meta property="og:url" content="xxx"> -->
+  <meta property="og:description" content="A simple and free Blackjack game with no betting">
+  <!-- <meta property="og:image" content="xxx.png"> -->
+
+  <!-- <link rel="icon" href="/favicon.ico"> -->
+  <!-- <link rel="icon" href="/favicon.svg" type="image/svg+xml"> -->
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="stylesheet" href="main.css">
+  <link rel="stylesheet" href="card-deck-css/css/cardstarter.css">
+</head>
+<body>
+    <div class = "header" class = "static-header-element">Marky's Blackjack Casino</div>
+    <div class = "sub-header" class = "static-header-element">A home for high rollers</div>
+    <button class = "start-button" class = "buttons">Start</button> 
+    <div class = "scores" class = "static-table-element">
+        <div class = "score-title">Scores</div>
+        <div class = "score-dealer-name">Dealer:</div>
+        <div class = "score-dealer-score"></div>
+        <div class = "score-player-name">Player:</div>
+        <div class = "score-player-score"></div>
+    </div>
+    <div class = "rules" class = "static-table-element">Rules<br><span>
+        <li class = "rules-ul">Dealer holds at 17</ul>
+        <li class = "rules-ul">Dealer's Blackjack always wins</ul>
+        <li class = "rules-ul">Player's bust always loses</ul>
+        <li class = "rules-ul">No betting</ul>
+    </div>
+    <div class = "player-stack"></div>
+    <div class = "betting"></div>
+    <div class = "dealer-name" class = "players-names">Dealer</div>
+    <div class = "dealer-cards" class = "playing-area"></div>
+    <div class = "message"></div>
+    <div class = "message-2"></div>
+    <div class = "player-cards" class = "playing-area"></div>
+    <div class = "player-name" class = "players-names">Player</div>
+    <div class = "card-deck"><img src="/assets/deck.png" alt="A deck of cards" width="75px" ></div>
+    <div class = "play-buttons">Play Buttons
+        <!-- <button class = "split-button" class = "buttons">Split</button>  -->
+        <!-- <button class = "double-down-button" class = "buttons">Double Down</button>  -->
+        <button class = "hit-button" class = "buttons">Hit</button> 
+        <button class = "hold-button" class = "buttons">Hold</button> 
+</div>
+
+<script src="main.js" defer></script>
+<link rel="stylesheet" href="main.css" type="text/css">
+
+</body>
