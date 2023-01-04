@@ -136,23 +136,6 @@ function startClick() {
     },1200)
 }
 
-
-// function startClick() {
-//     init()
-//     randomCardDraw()
-//     sumCardsDealtToDealer()
-//     renderDealersCards()
-//     renderDealerBackCard()
-//     changeTurn()
-//     randomCardDraw()
-//     randomCardDraw()
-//     renderPlayersCards()
-//     sumCardsDealtToPlayer()
-//     checkPlayerBust()
-//     startBtnEl.innerText = "Restart"
-//     renderPlayerScore(playerScore)
-// }
-
 function renderPlayersCards() {
     let html = ''
     cardsDealtToPlayer.forEach(function(card) {
@@ -192,7 +175,15 @@ function turnDealerBackCard () {
     }
 }
 
-  function renderDealersCards() {
+function disableStartButton() {
+    startBtnEl.setAttribute('disabled',true)
+}
+
+function enableStartButton() {
+    startBtnEl.removeAttribute('disabled')
+}
+
+function renderDealersCards() {
     let html = ''
     cardsDealtToDealer.forEach(function(card) {
         const dealtDealerCardEl = document.createElement('div')
@@ -260,57 +251,68 @@ function dealerPlayCheck() {
     }else if(dealerScore > 21 && playerScore > 21) {
         renderMessage("Dealer and Player are bust!")
         renderMessage2("It's a push")
+        enableStartButton()
         phase = 'end'
         winner = 'null'
     } else if(dealerScore > 21 && playerScore <= 21) {
         renderMessage("Dealer is bust!")
         renderMessage2(`Player Wins with ${playerScore}`)
+        enableStartButton()
         phase = 'end'
         winner = 'player'
     } else if(dealerScore <= 21 && dealerScore >= 17 &&  playerScore > 21) {
         renderMessage("Player is bust!")
         renderMessage2(`Dealer Wins with ${dealerScore}`)
+        enableStartButton()
         phase = 'end'
         winner = 'player'
     } else if((checkDealerCardClass('ace') === true && checkDealerCardClass('picture') === true && cardsDealtToDealer.length === 2) && (checkPlayerCardClass('ace') === true && checkPlayerCardClass('picture') === true && cardsDealtToPlayer.length === 2)) {
         renderMessage("Both players have a Blackjack!")
         renderMessage2("Dealer wins")
+        enableStartButton()
         phase = 'end'
         winner = null
     } else if((checkDealerCardClass('ace') === true && checkDealerCardClass('picture') === true && cardsDealtToDealer.length === 2) && (checkPlayerCardClass('ace') === undefined || checkPlayerCardClass('picture') === undefined && cardsDealtToPlayer.length !== 2)) {
         renderMessage("Dealer has a Blackjack!")
         renderMessage2("Dealer wins")
+        enableStartButton()
         phase = 'end'
         winner = 'dealer'
     } else if((checkPlayerCardClass('ace') === true && checkPlayerCardClass('picture') === true && cardsDealtToPlayer.length === 2) && (checkDealerCardClass('ace') === undefined || checkDealerCardClass('picture') === undefined && cardsDealtToDealer.length !== 2)) {
         renderMessage("Player has a Blackjack!")
         renderMessage2("Player wins")
+        enableStartButton()
         phase = 'end'
         winner = 'player'
     }else if(dealerScore >= 17 && dealerScore === playerScore) {
         renderMessage(`Both player and dealer have ${playerScore}`)
         renderMessage2("It's a push")
+        enableStartButton()
         phase = 'end'
         winner = null
     } else if(dealerScore >=17 && dealerScore > playerScore) {
         renderMessage(`Dealer wins with ${dealerScore}!`)
         renderMessage2(`Player has ${playerScore}`)
+        enableStartButton()
         phase = 'end'
         winner = 'dealer'
     } else if(dealerScore >=17 && dealerScore < playerScore && playerScore <= 21) {
         renderMessage(`Player wins with ${playerScore}!`)
         renderMessage2(`Dealer has ${dealerScore}`)
+        enableStartButton()
         phase = 'end'
         winner = 'player'
     }
 }
 
 function dealerPlay() {
+    disableStartButton()
     randomCardDraw()
     setTimeout(renderLastDealersCard,2000)
     setTimeout(sumCardsDealtToDealer,2000)
     setTimeout(dealerPlayCheck,2000)
     setTimeout(renderScores,2000)
+    setTimeout(startBtnEl.style.visibility = '',2000)
 }
 
 function randomCardDraw() {
@@ -427,7 +429,7 @@ function checkPlayerBust() {
         changeTurn()
         turnDealerBackCard()
         sumCardsDealtToDealer()
-        renderScores()
+        renderPlayerScore()
         hidePlayButtons()
         winner = "dealer"
         phase = "end"
