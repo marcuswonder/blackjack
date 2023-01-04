@@ -1,16 +1,3 @@
-// Constants -- Constants -- Constants -- Constants -- Constants //
-
-// const playersData = {
-//     '1': {
-//         name: 'Player',
-//         score: 0
-//     },
-//     '-1': {
-//         name: 'Dealer',
-//         score: 0
-//     }
-// }
-
 const cards = [
     {name: '2Hearts', value: 2, suit: 'hearts', cardClass: 'number', render: 'h02'},
     {name: '3Hearts', value: 3, suit: 'hearts', cardClass: 'number', render: 'h03'},
@@ -128,24 +115,43 @@ function init() {
     hitBtnEl.style.visibility = ''
     holdBtnEl.style.visibility = ''
     playButtonTitle.style.visibility = ''
+    startBtnEl.innerText = "Restart"
 }
-
 
 function startClick() {
     init()
     randomCardDraw()
     sumCardsDealtToDealer()
-    renderDealersCards()
-    renderDealerBackCard()
-    changeTurn()
-    randomCardDraw()
-    randomCardDraw()
-    renderPlayersCards()
-    sumCardsDealtToPlayer()
-    checkPlayerBust()
-    startBtnEl.innerText = "Restart"
-    renderPlayerScore(playerScore)
+    setTimeout(renderDealersCards,300)
+    setTimeout(renderDealerBackCard,600)
+    setTimeout(changeTurn,600)
+    setTimeout(randomCardDraw,600)
+    setTimeout(renderLastPlayersCard,900)
+    setTimeout(randomCardDraw,1200)
+    setTimeout(renderLastPlayersCard,1200)
+    setTimeout(sumCardsDealtToPlayer,1200)
+    setTimeout(checkPlayerBust,1200)
+    setTimeout(function(){
+        renderPlayerScore(playerScore)
+    },1200)
 }
+
+
+// function startClick() {
+//     init()
+//     randomCardDraw()
+//     sumCardsDealtToDealer()
+//     renderDealersCards()
+//     renderDealerBackCard()
+//     changeTurn()
+//     randomCardDraw()
+//     randomCardDraw()
+//     renderPlayersCards()
+//     sumCardsDealtToPlayer()
+//     checkPlayerBust()
+//     startBtnEl.innerText = "Restart"
+//     renderPlayerScore(playerScore)
+// }
 
 function renderPlayersCards() {
     let html = ''
@@ -188,11 +194,11 @@ function turnDealerBackCard () {
 
   function renderDealersCards() {
     let html = ''
-        cardsDealtToDealer.forEach(function(card) {
+    cardsDealtToDealer.forEach(function(card) {
         const dealtDealerCardEl = document.createElement('div')
         html += `<div class="card"></div>`;
         dealerCardsEl.appendChild(dealtDealerCardEl)
-        dealtDealerCardEl.classList.add(card.render);  
+        dealtDealerCardEl.classList.add(card.render)  
         dealtDealerCardEl.classList.add('card')
     })
 }
@@ -238,8 +244,8 @@ function hitClick(){
 
 function holdClick() {
     changeTurn()
-    turnDealerBackCard()
     hidePlayButtons()
+    setTimeout(turnDealerBackCard,300)
 }
 
 function changeTurn() {
@@ -247,9 +253,23 @@ function changeTurn() {
 }
 
 function dealerPlayCheck() {
-    if(dealerScore >21 && playerScore <=21) {
+    if(dealerScore < 17) {
+        dealerPlay()
+        phase = 'in-play'
+        winner = 'null'
+    }else if(dealerScore > 21 && playerScore > 21) {
+        renderMessage("Dealer and Player are bust!")
+        renderMessage2("It's a push")
+        phase = 'end'
+        winner = 'null'
+    } else if(dealerScore > 21 && playerScore <= 21) {
         renderMessage("Dealer is bust!")
-        renderMessage2("Player Wins")
+        renderMessage2(`Player Wins with ${playerScore}`)
+        phase = 'end'
+        winner = 'player'
+    } else if(dealerScore <= 21 && dealerScore >= 17 &&  playerScore > 21) {
+        renderMessage("Player is bust!")
+        renderMessage2(`Dealer Wins with ${dealerScore}`)
         phase = 'end'
         winner = 'player'
     } else if((checkDealerCardClass('ace') === true && checkDealerCardClass('picture') === true && cardsDealtToDealer.length === 2) && (checkPlayerCardClass('ace') === true && checkPlayerCardClass('picture') === true && cardsDealtToPlayer.length === 2)) {
@@ -258,12 +278,12 @@ function dealerPlayCheck() {
         phase = 'end'
         winner = null
     } else if((checkDealerCardClass('ace') === true && checkDealerCardClass('picture') === true && cardsDealtToDealer.length === 2) && (checkPlayerCardClass('ace') === undefined || checkPlayerCardClass('picture') === undefined && cardsDealtToPlayer.length !== 2)) {
-        renderMessage("Blackjack!")
+        renderMessage("Dealer has a Blackjack!")
         renderMessage2("Dealer wins")
         phase = 'end'
         winner = 'dealer'
     } else if((checkPlayerCardClass('ace') === true && checkPlayerCardClass('picture') === true && cardsDealtToPlayer.length === 2) && (checkDealerCardClass('ace') === undefined || checkDealerCardClass('picture') === undefined && cardsDealtToDealer.length !== 2)) {
-        renderMessage("Blackjack!")
+        renderMessage("Player has a Blackjack!")
         renderMessage2("Player wins")
         phase = 'end'
         winner = 'player'
@@ -274,27 +294,23 @@ function dealerPlayCheck() {
         winner = null
     } else if(dealerScore >=17 && dealerScore > playerScore) {
         renderMessage(`Dealer wins with ${dealerScore}!`)
-        renderMessage2("Dealer wins")
+        renderMessage2(`Player has ${playerScore}`)
         phase = 'end'
         winner = 'dealer'
-    } else if(dealerScore >=17 && dealerScore < playerScore) {
+    } else if(dealerScore >=17 && dealerScore < playerScore && playerScore <= 21) {
         renderMessage(`Player wins with ${playerScore}!`)
-        renderMessage2("Player wins")
+        renderMessage2(`Dealer has ${dealerScore}`)
         phase = 'end'
         winner = 'player'
-    } else if(dealerScore < 17 && playerScore <= 21) {
-        dealerPlay()
-        phase = 'in-play'
-        winner = 'null'
     }
 }
 
 function dealerPlay() {
     randomCardDraw()
-    renderLastDealersCard()
-    sumCardsDealtToDealer()
-    dealerPlayCheck()
-    renderScores()
+    setTimeout(renderLastDealersCard,2000)
+    setTimeout(sumCardsDealtToDealer,2000)
+    setTimeout(dealerPlayCheck,2000)
+    setTimeout(renderScores,2000)
 }
 
 function randomCardDraw() {
@@ -381,7 +397,7 @@ function playerAceValue() {
     } else if(playerScore > 21 && countCardClass(cardsDealtToPlayer, 'cardClass', 'ace') === 2 && (playerScore - 10) < 21 ) {
         playerScore = playerScore - 10
     } else if(playerScore > 21 && countCardClass(cardsDealtToPlayer, 'cardClass', 'ace') === 2 && (playerScore - 20) < 21 ) {
-    playerScore = playerScore - 20
+        playerScore = playerScore - 20
     } else if(playerScore > 21 && countCardClass(cardsDealtToPlayer, 'cardClass', 'ace') === 3 && (playerScore - 10) < 21) {
         playerScore = playerScore - 10
     } else if(playerScore > 21 && countCardClass(cardsDealtToPlayer, 'cardClass', 'ace') === 3 && (playerScore - 20) < 21) {
@@ -407,7 +423,7 @@ function checkPlayerCardClass(cardClass) {
 function checkPlayerBust() {
     if (playerScore > 21) {
         renderMessage("Player is Bust!")
-        renderMessage2("Dealer Wins!")
+        renderMessage2("Dealer must hit 17 to hold")
         changeTurn()
         turnDealerBackCard()
         sumCardsDealtToDealer()
