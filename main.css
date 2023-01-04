@@ -266,7 +266,7 @@ body{
 .dealer-cards{
     background-color: white;
     fill: white;
-    height: 10rem;
+    height: 8rem;
     border-style: solid;
     border-color: gold;
     border-width: 5px;
@@ -278,7 +278,7 @@ body{
 .player-cards{
     background-color: white;
     fill: white;
-    height: 10rem;
+    height: 8rem;
     border-style: solid;
     border-color: gold;
     border-width: 5px;

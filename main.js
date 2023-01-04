@@ -93,6 +93,7 @@ const dealerCardsEl = document.querySelector('.dealer-cards')
 const playerCardsEl = document.querySelector('.player-cards')
 let dealerScoreEl = document.querySelector('.score-dealer-score')
 let playerScoreEl = document.querySelector('.score-player-score')
+const playButtonTitle = document.querySelector('.play-buttons')
 
 // Event Listeners -- Event Listeners -- Event Listeners -- Event Listeners -- Event Listeners //
 startBtnEl.addEventListener('click', startClick)
@@ -124,6 +125,9 @@ function init() {
     dealerCardsEl.innerHTML = ''
     messageEl.innerText = ''
     messageEl2.innerText = ''
+    hitBtnEl.style.visibility = ''
+    holdBtnEl.style.visibility = ''
+    playButtonTitle.style.visibility = ''
 }
 
 
@@ -178,6 +182,7 @@ function turnDealerBackCard () {
         renderLastDealersCard()
         sumCardsDealtToDealer()
         dealerPlayCheck()
+        renderScores()
     }
 }
 
@@ -234,7 +239,7 @@ function hitClick(){
 function holdClick() {
     changeTurn()
     turnDealerBackCard()
-    
+    hidePlayButtons()
 }
 
 function changeTurn() {
@@ -308,7 +313,11 @@ function countCardClass(array, key, value) {
 }
 
 
-
+function hidePlayButtons() {
+    hitBtnEl.style.visibility = 'hidden'
+    holdBtnEl.style.visibility = 'hidden'
+    playButtonTitle.style.visibility = 'hidden'
+}
 
 // ////////////////////////////////////// Player & Dealer functions are separated ////////////////////////////////////// 
 
@@ -403,6 +412,7 @@ function checkPlayerBust() {
         turnDealerBackCard()
         sumCardsDealtToDealer()
         renderScores()
+        hidePlayButtons()
         winner = "dealer"
         phase = "end"
         return
