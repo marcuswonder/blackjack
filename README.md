@@ -69,7 +69,7 @@ In this project I used the following tools:
 
 ## Play the game!
 
-<button name="button" onclick="https://www.google.com">Launch Game</button>
+<button name="button" onclick="www.google.com">Launch Game</button>
 
 <br>
 <br>
@@ -95,7 +95,6 @@ In time, I would like to include the following features into the gameplay:
 
 - Log player name so prompts are personalised<br>
 - Time-delayed prompts based on player inaction<br>
-- Play the alternate playing functions (i.e. double-down/split)<br>
 - Choose the card design<br>
 - Select the number of decks to draw from, including variable betting odds.<br>
 - Play with multiple people<br>
