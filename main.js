@@ -62,13 +62,8 @@ let playerScore = 0
 let dealerScore = 0
 let randomCard = null
 
-
 // Game States -- Game States -- Game States -- Game States -- Game States //
-
-let phase, turn, winner
-
-
-
+let turn
 
 /*----- cached element references -----*/
 const startBtnEl = document.querySelector('.start-button')
@@ -87,20 +82,9 @@ startBtnEl.addEventListener('click', startClick)
 hitBtnEl.addEventListener('click',hitClick)
 holdBtnEl.addEventListener('click', holdClick)
 
-/*----- Game State Functions -----*/
-if (turn = 1) {
-    playerScoreEl.innerText = ""
-}
-
-// if(winner !== null) {
-//     holdBtnEl.parentElement.remove
-// }
-
 /*----- functions -----*/
 function init() {
-    phase = 'in-play'
     turn = -1
-    winner = null
     playerScore = 0
     dealerScore = 0
     cards.push(...cardsDealtToDealer, ...cardsDealtToPlayer)
@@ -119,6 +103,7 @@ function init() {
 }
 
 function startClick() {
+    disableStartButton()
     init()
     randomCardDraw()
     sumCardsDealtToDealer()
@@ -134,33 +119,34 @@ function startClick() {
     setTimeout(function(){
         renderPlayerScore(playerScore)
     },1200)
+    setTimeout(enableStartButton,1200)
 }
 
 function renderPlayersCards() {
     let html = ''
     cardsDealtToPlayer.forEach(function(card) {
         const dealtPlayerCardEl = document.createElement('div')
-        html += `<div class="card"></div>`;
+        html += `<div class="card"></div>`
         playerCardsEl.appendChild(dealtPlayerCardEl)
-        dealtPlayerCardEl.classList.add(card.render);  
+        dealtPlayerCardEl.classList.add(card.render)
         dealtPlayerCardEl.classList.add('card')
     })
 }
 
 function renderLastPlayersCard() {
-    let html = '';
-    let lastPlayerCard = cardsDealtToPlayer[cardsDealtToPlayer.length - 1];
-    const dealtPlayerCardEl = document.createElement('div');
-    html += `<div class="card"></div>`;
-    playerCardsEl.appendChild(dealtPlayerCardEl);
-    dealtPlayerCardEl.classList.add(lastPlayerCard.render);  
-    dealtPlayerCardEl.classList.add('card');
+    let html = ''
+    let lastPlayerCard = cardsDealtToPlayer[cardsDealtToPlayer.length - 1]
+    const dealtPlayerCardEl = document.createElement('div')
+    html += `<div class="card"></div>`
+    playerCardsEl.appendChild(dealtPlayerCardEl)
+    dealtPlayerCardEl.classList.add(lastPlayerCard.render)
+    dealtPlayerCardEl.classList.add('card')
   }
 
 function renderDealerBackCard () {
     const dealtDealerCardEl = document.createElement('div')
         dealerCardsEl.appendChild(dealtDealerCardEl)
-        dealtDealerCardEl.classList.add('back-blue');  
+        dealtDealerCardEl.classList.add('back-blue')
         dealtDealerCardEl.classList.add('card')
 }
 
@@ -187,7 +173,7 @@ function renderDealersCards() {
     let html = ''
     cardsDealtToDealer.forEach(function(card) {
         const dealtDealerCardEl = document.createElement('div')
-        html += `<div class="card"></div>`;
+        html += `<div class="card"></div>`
         dealerCardsEl.appendChild(dealtDealerCardEl)
         dealtDealerCardEl.classList.add(card.render)  
         dealtDealerCardEl.classList.add('card')
@@ -195,13 +181,13 @@ function renderDealersCards() {
 }
 
 function renderLastDealersCard() {
-    let html = '';
-    let lastDealerCard = cardsDealtToDealer[cardsDealtToDealer.length - 1];
-    const dealtDealerCardEl = document.createElement('div');
-    html += `<div class="card"></div>`;
-    dealerCardsEl.appendChild(dealtDealerCardEl);
-    dealtDealerCardEl.classList.add(lastDealerCard.render);  
-    dealtDealerCardEl.classList.add('card');
+    let html = ''
+    let lastDealerCard = cardsDealtToDealer[cardsDealtToDealer.length - 1]
+    const dealtDealerCardEl = document.createElement('div')
+    html += `<div class="card"></div>`
+    dealerCardsEl.appendChild(dealtDealerCardEl)
+    dealtDealerCardEl.classList.add(lastDealerCard.render)
+    dealtDealerCardEl.classList.add('card')
   }
 
 function renderScores() {
@@ -244,68 +230,49 @@ function changeTurn() {
 }
 
 function dealerPlayCheck() {
-    if(dealerScore < 17) {
-        dealerPlay()
-        phase = 'in-play'
-        winner = 'null'
-    }else if(dealerScore > 21 && playerScore > 21) {
-        renderMessage("Dealer and Player are bust!")
-        renderMessage2("It's a push")
+    if((checkPlayerCardClass('ace') === true && checkPlayerCardClass('picture') === true && cardsDealtToPlayer.length === 2) && (checkDealerCardClass('ace') === undefined || checkDealerCardClass('picture') === undefined && cardsDealtToDealer.length !== 2)) {
+        renderMessage("Player has a Blackjack!")
+        renderMessage2("Player wins")
         enableStartButton()
-        phase = 'end'
-        winner = 'null'
-    } else if(dealerScore > 21 && playerScore <= 21) {
-        renderMessage("Dealer is bust!")
-        renderMessage2(`Player Wins with ${playerScore}`)
-        enableStartButton()
-        phase = 'end'
-        winner = 'player'
-    } else if(dealerScore <= 21 && dealerScore >= 17 &&  playerScore > 21) {
-        renderMessage("Player is bust!")
-        renderMessage2(`Dealer Wins with ${dealerScore}`)
-        enableStartButton()
-        phase = 'end'
-        winner = 'player'
-    } else if((checkDealerCardClass('ace') === true && checkDealerCardClass('picture') === true && cardsDealtToDealer.length === 2) && (checkPlayerCardClass('ace') === true && checkPlayerCardClass('picture') === true && cardsDealtToPlayer.length === 2)) {
-        renderMessage("Both players have a Blackjack!")
-        renderMessage2("Dealer wins")
-        enableStartButton()
-        phase = 'end'
-        winner = null
     } else if((checkDealerCardClass('ace') === true && checkDealerCardClass('picture') === true && cardsDealtToDealer.length === 2) && (checkPlayerCardClass('ace') === undefined || checkPlayerCardClass('picture') === undefined && cardsDealtToPlayer.length !== 2)) {
         renderMessage("Dealer has a Blackjack!")
         renderMessage2("Dealer wins")
         enableStartButton()
-        phase = 'end'
-        winner = 'dealer'
-    } else if((checkPlayerCardClass('ace') === true && checkPlayerCardClass('picture') === true && cardsDealtToPlayer.length === 2) && (checkDealerCardClass('ace') === undefined || checkDealerCardClass('picture') === undefined && cardsDealtToDealer.length !== 2)) {
-        renderMessage("Player has a Blackjack!")
-        renderMessage2("Player wins")
+    } else if((checkDealerCardClass('ace') === true && checkDealerCardClass('picture') === true && cardsDealtToDealer.length === 2) && (checkPlayerCardClass('ace') === true && checkPlayerCardClass('picture') === true && cardsDealtToPlayer.length === 2)) {
+        renderMessage("Both players have a Blackjack!")
+        renderMessage2("Dealer wins")
         enableStartButton()
-        phase = 'end'
-        winner = 'player'
+    } else if(dealerScore < 17) {
+        dealerPlay()
+    }else if(dealerScore > 21 && playerScore > 21) {
+        renderMessage("Dealer and Player are bust!")
+        renderMessage2("It's a push")
+        enableStartButton()
+    } else if(dealerScore > 21 && playerScore <= 21) {
+        renderMessage("Dealer is bust!")
+        renderMessage2(`Player Wins with ${playerScore}`)
+        enableStartButton()
+    } else if(dealerScore <= 21 && dealerScore >= 17 &&  playerScore > 21) {
+        renderMessage("Player is bust!")
+        renderMessage2(`Dealer Wins with ${dealerScore}`)
+        enableStartButton()
     }else if(dealerScore >= 17 && dealerScore === playerScore) {
         renderMessage(`Both player and dealer have ${playerScore}`)
         renderMessage2("It's a push")
         enableStartButton()
-        phase = 'end'
-        winner = null
     } else if(dealerScore >=17 && dealerScore > playerScore) {
         renderMessage(`Dealer wins with ${dealerScore}!`)
         renderMessage2(`Player has ${playerScore}`)
         enableStartButton()
-        phase = 'end'
-        winner = 'dealer'
     } else if(dealerScore >=17 && dealerScore < playerScore && playerScore <= 21) {
         renderMessage(`Player wins with ${playerScore}!`)
         renderMessage2(`Dealer has ${dealerScore}`)
         enableStartButton()
-        phase = 'end'
-        winner = 'player'
     }
 }
 
 function dealerPlay() {
+    renderMessage("Dealer's play")
     disableStartButton()
     randomCardDraw()
     setTimeout(renderLastDealersCard,2000)
@@ -318,7 +285,7 @@ function dealerPlay() {
 function randomCardDraw() {
     randomCard = cards[Math.floor(Math.random()*cards.length)]
     let randomCardIndex = cards.indexOf(randomCard)
-        cards.splice(randomCardIndex, 1);
+        cards.splice(randomCardIndex, 1)
     if(turn === 1) {
         cardsDealtToPlayer.push(randomCard)
     } else if(turn === -1) {
@@ -330,17 +297,11 @@ function countCardClass(array, key, value) {
   return array.reduce((acc, obj) => (obj[key] === value ? acc + 1 : acc), 0)
 }
 
-
 function hidePlayButtons() {
     hitBtnEl.style.visibility = 'hidden'
     holdBtnEl.style.visibility = 'hidden'
     playButtonTitle.style.visibility = 'hidden'
 }
-
-// ////////////////////////////////////// Player & Dealer functions are separated ////////////////////////////////////// 
-
-// ////////////////////////////////////////////////// Dealer functions ////////////////////////////////////////////////// 
-
 
 function sumCardsDealtToDealer() {
     var cardsDealtToDealerTotal = cardsDealtToDealer.reduce(function(previousValue, currentValue) {
@@ -355,23 +316,23 @@ function sumCardsDealtToDealer() {
 function dealerAceValue() {
     if(dealerScore > 21 & (countCardClass(cardsDealtToDealer, 'cardClass', 'ace') === 1)) {
         dealerScore = dealerScore - 10
-    } else if(dealerScore > 21 && countCardClass(cardsDealtToDealer, 'cardClass', 'ace') === 2 && (dealerScore - 10) < 21 ) {
+    } else if(dealerScore > 21 && countCardClass(cardsDealtToDealer, 'cardClass', 'ace') === 2 && (dealerScore - 10) <= 21 ) {
         dealerScore = dealerScore - 10
-    } else if(dealerScore > 21 && countCardClass(cardsDealtToDealer, 'cardClass', 'ace') === 2 && (dealerScore - 10) > 21 ) {
-    dealerScore = dealerScore - 20
-    } else if(dealerScore > 21 && countCardClass(cardsDealtToDealer, 'cardClass', 'ace') === 3 && (dealerScore - 10) < 21) {
-        dealerScore = dealerScore - 10
-    } else if(dealerScore > 21 && countCardClass(cardsDealtToDealer, 'cardClass', 'ace') === 3 && (dealerScore - 20) < 21) {
+    } else if(dealerScore > 21 && countCardClass(cardsDealtToDealer, 'cardClass', 'ace') === 2 && (dealerScore - 20) <= 21 ) {
         dealerScore = dealerScore - 20
-    } else if(dealerScore > 21 && countCardClass(cardsDealtToDealer, 'cardClass', 'ace') === 3 && (dealerScore - 30) < 21) {
-        dealerScore = dealerScore - 30
-    } else if(dealerScore > 21 && countCardClass(cardsDealtToDealer, 'cardClass', 'ace') === 4 && (dealerScore - 10) < 21) {
+    } else if(dealerScore > 21 && countCardClass(cardsDealtToDealer, 'cardClass', 'ace') === 3 && (dealerScore - 10) <= 21) {
         dealerScore = dealerScore - 10
-    } else if(dealerScore > 21 && countCardClass(cardsDealtToDealer, 'cardClass', 'ace') === 4 && (dealerScore - 20) < 21) {
+    } else if(dealerScore > 21 && countCardClass(cardsDealtToDealer, 'cardClass', 'ace') === 3 && (dealerScore - 20) <= 21) {
         dealerScore = dealerScore - 20
-    } else if(dealerScore > 21 && countCardClass(cardsDealtToDealer, 'cardClass', 'ace') === 4 && (dealerScore - 30) < 21) {
+    } else if(dealerScore > 21 && countCardClass(cardsDealtToDealer, 'cardClass', 'ace') === 3 && (dealerScore - 30) <= 21) {
         dealerScore = dealerScore - 30
-    } else if(dealerScore > 21 && countCardClass(cardsDealtToDealer, 'cardClass', 'ace') === 4 && (dealerScore - 40) < 21) {
+    } else if(dealerScore > 21 && countCardClass(cardsDealtToDealer, 'cardClass', 'ace') === 4 && (dealerScore - 10) <= 21) {
+        dealerScore = dealerScore - 10
+    } else if(dealerScore > 21 && countCardClass(cardsDealtToDealer, 'cardClass', 'ace') === 4 && (dealerScore - 20) <= 21) {
+        dealerScore = dealerScore - 20
+    } else if(dealerScore > 21 && countCardClass(cardsDealtToDealer, 'cardClass', 'ace') === 4 && (dealerScore - 30) <= 21) {
+        dealerScore = dealerScore - 30
+    } else if(dealerScore > 21 && countCardClass(cardsDealtToDealer, 'cardClass', 'ace') === 4 && (dealerScore - 40) <= 21) {
         dealerScore = dealerScore - 40
     }
 }
@@ -379,8 +340,6 @@ function dealerAceValue() {
 function checkDealerCardClass(cardClass) {
     if(cardsDealtToDealer.find(item => item.cardClass  === cardClass)) return true
 }
-
-// ////////////////////////////////////////////////// Player functions ////////////////////////////////////////////////// 
 
 function sumCardsDealtToPlayer() {
     var cardsDealtToPlayerTotal = cardsDealtToPlayer.reduce(function(previousValue, currentValue) {
@@ -392,31 +351,29 @@ function sumCardsDealtToPlayer() {
     playerAceValue()
 }
 
-
 function playerAceValue() {
     if(playerScore > 21 & (countCardClass(cardsDealtToPlayer, 'cardClass', 'ace') === 1)) {
         playerScore = playerScore - 10
-    } else if(playerScore > 21 && countCardClass(cardsDealtToPlayer, 'cardClass', 'ace') === 2 && (playerScore - 10) < 21 ) {
+    } else if(playerScore > 21 && countCardClass(cardsDealtToPlayer, 'cardClass', 'ace') === 2 && (playerScore - 10) <= 21 ) {
         playerScore = playerScore - 10
-    } else if(playerScore > 21 && countCardClass(cardsDealtToPlayer, 'cardClass', 'ace') === 2 && (playerScore - 20) < 21 ) {
+    } else if(playerScore > 21 && countCardClass(cardsDealtToPlayer, 'cardClass', 'ace') === 2 && (playerScore - 20) <= 21 ) {
         playerScore = playerScore - 20
-    } else if(playerScore > 21 && countCardClass(cardsDealtToPlayer, 'cardClass', 'ace') === 3 && (playerScore - 10) < 21) {
+    } else if(playerScore > 21 && countCardClass(cardsDealtToPlayer, 'cardClass', 'ace') === 3 && (playerScore - 10) <= 21) {
         playerScore = playerScore - 10
-    } else if(playerScore > 21 && countCardClass(cardsDealtToPlayer, 'cardClass', 'ace') === 3 && (playerScore - 20) < 21) {
+    } else if(playerScore > 21 && countCardClass(cardsDealtToPlayer, 'cardClass', 'ace') === 3 && (playerScore - 20) <= 21) {
         playerScore = playerScore - 20
-    } else if(playerScore > 21 && countCardClass(cardsDealtToPlayer, 'cardClass', 'ace') === 3 && (playerScore - 30) < 21) {
+    } else if(playerScore > 21 && countCardClass(cardsDealtToPlayer, 'cardClass', 'ace') === 3 && (playerScore - 30) <= 21) {
         playerScore = playerScore - 30
-    } else if(playerScore > 21 && countCardClass(cardsDealtToPlayer, 'cardClass', 'ace') === 4 && (playerScore - 10) < 21) {
+    } else if(playerScore > 21 && countCardClass(cardsDealtToPlayer, 'cardClass', 'ace') === 4 && (playerScore - 10) <= 21) {
         playerScore = playerScore - 10
-    } else if(playerScore > 21 && countCardClass(cardsDealtToPlayer, 'cardClass', 'ace') === 4 && (playerScore - 20) < 21) {
+    } else if(playerScore > 21 && countCardClass(cardsDealtToPlayer, 'cardClass', 'ace') === 4 && (playerScore - 20) <= 21) {
         playerScore = playerScore - 20
-    } else if(playerScore > 21 && countCardClass(cardsDealtToPlayer, 'cardClass', 'ace') === 4 && (playerScore - 30) < 21) {
+    } else if(playerScore > 21 && countCardClass(cardsDealtToPlayer, 'cardClass', 'ace') === 4 && (playerScore - 30) <= 21) {
         playerScore = playerScore - 30
-    } else if(playerScore > 21 && countCardClass(cardsDealtToPlayer, 'cardClass', 'ace') === 4 && (playerScore - 40) < 21) {
+    } else if(playerScore > 21 && countCardClass(cardsDealtToPlayer, 'cardClass', 'ace') === 4 && (playerScore - 40) <= 21) {
         playerScore = playerScore - 40
     }
 }
-
 
 function checkPlayerCardClass(cardClass) {
     if(cardsDealtToPlayer.find(item => item.cardClass === cardClass)) return true
@@ -425,33 +382,12 @@ function checkPlayerCardClass(cardClass) {
 function checkPlayerBust() {
     if (playerScore > 21) {
         renderMessage("Player is Bust!")
-        renderMessage2("Dealer must hit 17 to hold")
+        renderMessage2("Dealer must hit 17 to win")
         changeTurn()
         turnDealerBackCard()
         sumCardsDealtToDealer()
         renderPlayerScore()
         hidePlayButtons()
-        winner = "dealer"
-        phase = "end"
         return
     }
 }
-
-
-
-
-
-
-
-// ////////////////////////////////////// Player & Dealer functions dictated by turn state ////////////////////////////////////// 
-// ////////////////////////////////////// Player & Dealer functions dictated by turn state ////////////////////////////////////// 
-// ////////////////////////////////////// Player & Dealer functions dictated by turn state ////////////////////////////////////// 
-// ////////////////////////////////////// Player & Dealer functions dictated by turn state ////////////////////////////////////// 
-// ////////////////////////////////////// Player & Dealer functions dictated by turn state ////////////////////////////////////// 
-// ////////////////////////////////////// Player & Dealer functions dictated by turn state ////////////////////////////////////// 
-// ////////////////////////////////////// Player & Dealer functions dictated by turn state ////////////////////////////////////// 
-// ////////////////////////////////////// Player & Dealer functions dictated by turn state ////////////////////////////////////// 
-// ////////////////////////////////////// Player & Dealer functions dictated by turn state ////////////////////////////////////// 
-
-
-
