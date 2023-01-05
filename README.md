@@ -11,8 +11,7 @@ Blackjack is my go-to game at the casino, so I thought it would be fun to recrea
 ### Rules
 In order to effectively design the win logic, I first set the parameters of the game to know how to proceed. These are the rules that I chose:
  - Dealer holds at 17 
- - Dealer's Blackjack always wins
- - It's a push if both players bust
+ - Player's bust always loses
  - No betting
 
 <br>
@@ -37,23 +36,38 @@ Here are some screenshots of my game:
 
 <br>
 
-### Dealer Win
+### Player Wins
+![](/assets/Player%20wins.png)
+
+<br>
+
+### Dealer Wins
 ![](/assets/Dealer%20wins.png)
 
 <br>
 
-### Player Bust
+### Player is Bust
 ![](/assets/Player%20bust.png)
 
 <br>
 
-### Player Blackjack
+### Dealer is Bust
+![](/assets/Dealer%20bust.png)
+
+<br>
+
+### Player has a Blackjack
 ![](/assets/Player%20Blackjack.png)
 
 <br>
 
-### Dealer Blackjack
+### Dealer has a Blackjack
 ![](/assets/Dealer%20Blackjack.png)
+
+<br>
+
+### Dealer in play
+![](/assets/Dealer's%20Play.png)
 
 <br>
 <br>
@@ -68,8 +82,7 @@ In this project I used the following tools:
 <br>
 
 ## Play the game!
-
-<button name="button" onclick="www.google.com">Launch Game</button>
+https://marcuswonder.github.io/project_1_blackjack/
 
 <br>
 <br>

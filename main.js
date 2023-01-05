@@ -7,7 +7,7 @@ const cards = [
     {name: '7Hearts', value: 7, suit: 'hearts', cardClass: 'number', render: 'h07'},
     {name: '8Hearts', value: 8, suit: 'hearts', cardClass: 'number', render: 'h08'},
     {name: '9Hearts', value: 9, suit: 'hearts', cardClass: 'number', render: 'h09'},
-    {name: '10Hearts', value: 10, suit: 'hearts', cardClass: 'number', render: 'h10'},
+    {name: '10Hearts', value: 10, suit: 'hearts', cardClass: 'picture', render: 'h10'},
     {name: 'jackHearts', value: 10, suit: 'hearts', cardClass: 'picture', render: 'hJ'},
     {name: 'queenHearts', value: 10, suit: 'hearts', cardClass: 'picture', render: 'hQ'},
     {name: 'kingHearts', value: 10, suit: 'hearts', cardClass: 'picture', render: 'hK'},
@@ -21,7 +21,7 @@ const cards = [
     {name: '7Spades', value: 7, suit: 'spades', cardClass: 'number', render: 's07'},
     {name: '8Spades', value: 8, suit: 'spades', cardClass: 'number', render: 's08'},
     {name: '9Spades', value: 9, suit: 'spades', cardClass: 'number', render: 's09'},
-    {name: '10Spades', value: 10, suit: 'spades', cardClass: 'number', render: 's10'},
+    {name: '10Spades', value: 10, suit: 'spades', cardClass: 'picture', render: 's10'},
     {name: 'jackSpades', value: 10, suit: 'spades', cardClass: 'picture', render: 'sJ'},
     {name: 'queenSpades', value: 10, suit: 'spades', cardClass: 'picture', render: 'sQ'},
     {name: 'kingSpades', value: 10, suit: 'spades', cardClass: 'picture', render: 'sK'},
@@ -35,7 +35,7 @@ const cards = [
     {name: '7Clubs', value: 7, suit: 'clubs', cardClass: 'number', render: 'c07'},
     {name: '8Clubs', value: 8, suit: 'clubs', cardClass: 'number', render: 'c08'},
     {name: '9Clubs', value: 9, suit: 'clubs', cardClass: 'number', render: 'c09'},
-    {name: '10Clubs', value: 10, suit: 'clubs', cardClass: 'number', render: 'c10'},
+    {name: '10Clubs', value: 10, suit: 'clubs', cardClass: 'picture', render: 'c10'},
     {name: 'jackClubs', value: 10, suit: 'clubs', cardClass: 'picture', render: 'cJ'},
     {name: 'queenClubs', value: 10, suit: 'clubs', cardClass: 'picture', render: 'cQ'},
     {name: 'kingClubs', value: 10, suit: 'clubs', cardClass: 'picture', render: 'cK'},
@@ -49,7 +49,7 @@ const cards = [
     {name: '7Diamonds', value: 7, suit: 'diamonds', cardClass: 'number', render: 'd07'},
     {name: '8Diamonds', value: 8, suit: 'diamonds', cardClass: 'number', render: 'd08'},
     {name: '9Diamonds', value: 9, suit: 'diamonds', cardClass: 'number', render: 'd09'},
-    {name: '10Diamonds', value: 10, suit: 'diamonds', cardClass: 'number', render: 'd10'},
+    {name: '10Diamonds', value: 10, suit: 'diamonds', cardClass: 'picture', render: 'd10'},
     {name: 'jackDiamonds', value: 10, suit: 'diamonds', cardClass: 'picture', render: 'dJ'},
     {name: 'queenDiamonds', value: 10, suit: 'diamonds', cardClass: 'picture', render: 'dQ'},
     {name: 'kingDiamonds', value: 10, suit: 'diamonds', cardClass: 'picture', render: 'dK'},
@@ -150,6 +150,16 @@ function renderDealerBackCard () {
         dealtDealerCardEl.classList.add('card')
 }
 
+function turnDealerBackCardBust() {
+    if(turn === -1) {
+        dealerCardsEl.removeChild(dealerCardsEl.lastChild)
+        randomCardDraw()
+        renderLastDealersCard()
+        sumCardsDealtToDealer()
+        renderScores()
+    }
+}
+
 function turnDealerBackCard () {
     if(turn === -1) {
         dealerCardsEl.removeChild(dealerCardsEl.lastChild)
@@ -230,23 +240,23 @@ function changeTurn() {
 }
 
 function dealerPlayCheck() {
-    if((checkPlayerCardClass('ace') === true && checkPlayerCardClass('picture') === true && cardsDealtToPlayer.length === 2) && (checkDealerCardClass('ace') === undefined || checkDealerCardClass('picture') === undefined && cardsDealtToDealer.length !== 2)) {
+    if((checkPlayerCardClass('ace') === true && checkPlayerCardClass('picture') === true && cardsDealtToPlayer.length === 2) && (checkDealerCardClass('ace') === undefined || checkDealerCardClass('picture') === undefined || cardsDealtToDealer.length !== 2)) {
         renderMessage("Player has a Blackjack!")
         renderMessage2("Player wins")
         enableStartButton()
-    } else if((checkDealerCardClass('ace') === true && checkDealerCardClass('picture') === true && cardsDealtToDealer.length === 2) && (checkPlayerCardClass('ace') === undefined || checkPlayerCardClass('picture') === undefined && cardsDealtToPlayer.length !== 2)) {
+    } else if((checkDealerCardClass('ace') === true && checkDealerCardClass('picture') === true && cardsDealtToDealer.length === 2) && (checkPlayerCardClass('ace') === undefined || checkPlayerCardClass('picture') === undefined || cardsDealtToPlayer.length !== 2)) {
         renderMessage("Dealer has a Blackjack!")
         renderMessage2("Dealer wins")
         enableStartButton()
     } else if((checkDealerCardClass('ace') === true && checkDealerCardClass('picture') === true && cardsDealtToDealer.length === 2) && (checkPlayerCardClass('ace') === true && checkPlayerCardClass('picture') === true && cardsDealtToPlayer.length === 2)) {
         renderMessage("Both players have a Blackjack!")
-        renderMessage2("Dealer wins")
+        renderMessage2("It's a push")
         enableStartButton()
     } else if(dealerScore < 17) {
         dealerPlay()
     }else if(dealerScore > 21 && playerScore > 21) {
         renderMessage("Dealer and Player are bust!")
-        renderMessage2("It's a push")
+        renderMessage2("The player still loses!")
         enableStartButton()
     } else if(dealerScore > 21 && playerScore <= 21) {
         renderMessage("Dealer is bust!")
@@ -382,9 +392,8 @@ function checkPlayerCardClass(cardClass) {
 function checkPlayerBust() {
     if (playerScore > 21) {
         renderMessage("Player is Bust!")
-        renderMessage2("Dealer must hit 17 to win")
         changeTurn()
-        turnDealerBackCard()
+        turnDealerBackCardBust()
         sumCardsDealtToDealer()
         renderPlayerScore()
         hidePlayButtons()
